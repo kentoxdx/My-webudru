@@ -1,92 +1,30 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ระบบเช็คชื่อนักศึกษา แยกกลุ่ม</title>
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 10px; background-color: #f7fafc; color: #2d3748; margin: 0; }
-    .container { max-width: 650px; margin: 5px auto; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-    h2 { text-align: center; color: #1F497D; margin-top: 5px; margin-bottom: 15px; font-size: 18px; font-weight: bold; }
-    label { font-weight: bold; display: block; margin-top: 12px; color: #4a5568; font-size: 13px; }
-    
-    input[type="text"], button, select.tab-select { width: 100%; padding: 12px; margin-top: 6px; border-radius: 8px; border: 1px solid #cbd5e0; box-sizing: border-box; font-size: 15px; -webkit-appearance: none; }
-    .tab-select { background-color: #e2e8f0; font-weight: bold; color: #1F497D; cursor: pointer; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="%231F497D" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>'); background-repeat: no-repeat; background-position: calc(100% - 12px) center; padding-right: 30px; }
-    
-    .search-box { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="%23a0aec0" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>'); background-repeat: no-repeat; background-position: 12px center; padding-left: 36px !important; border-color: #4F81BD; }
-    
-    .action-bar { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; color: #4a5568; background: #edf2f7; padding: 8px; border-radius: 6px; }
+    /* CSS ยกมาจากของเดิมได้เลยครับ */
+    body { font-family: Arial, sans-serif; padding: 10px; background-color: #f7fafc; color: #2d3748; margin: 0; }
+    .container { max-width: 650px; margin: 10px auto; background: white; padding: 20px; border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); box-sizing: border-box; }
+    h2 { text-align: center; color: #1F497D; margin-bottom: 20px; font-size: 20px; }
+    label { font-weight: bold; display: block; margin-top: 15px; color: #4a5568; font-size: 14px; }
+    input[type="text"], button, select.tab-select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 8px; border: 1px solid #cbd5e0; box-sizing: border-box; font-size: 15px; }
+    .tab-select { background-color: #e2e8f0; font-weight: bold; color: #1F497D; cursor: pointer; }
+    .search-box { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23a0aec0" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>'); background-repeat: no-repeat; background-position: 12px center; padding-left: 40px !important; border-color: #4F81BD; }
+    .table-container { margin-top: 15px; max-height: 380px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; position: relative; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 10px; border-bottom: 1px solid #e2e8f0; }
+    th { background-color: #1F497D; color: white; position: sticky; top: 0; z-index: 2; }
+    .select-status { padding: 6px; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 13px; width: 100%; max-width: 85px; }
+    .input-note { padding: 6px; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 13px; width: 100%; }
+    .checkbox-col { text-align: center; width: 45px; }
+    .checkbox-item { transform: scale(1.3); cursor: pointer; }
+    button { background-color: #1F497D; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
+    .loading { text-align: center; color: #a0aec0; font-style: italic; padding: 20px 0; }
+    .action-bar { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; }
     .btn-link { cursor: pointer; color: #1F497D; text-decoration: underline; font-weight: bold; }
-    
-    .table-container { margin-top: 10px; max-height: calc(100vh - 290px); overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; -webkit-overflow-scrolling: touch; }
-    
-    /* สไตล์สำหรับ Desktop (ตารางมาตรฐาน) */
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-    th, td { padding: 10px 8px; border-bottom: 1px solid #e2e8f0; }
-    th { background-color: #1F497D; color: white; position: sticky; top: 0; z-index: 2; font-size: 13px; }
-    
-    .checkbox-item { transform: scale(1.4); cursor: pointer; margin: 0; vertical-align: middle; }
-    .select-status { padding: 8px; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 14px; width: 100%; font-weight: bold; background-color: #fff; }
-    .input-note { padding: 8px; border-radius: 6px; border: 1px solid #cbd5e0; font-size: 13px; width: 100%; margin-top: 4px; }
-    
-    button.submit-btn { background-color: #1F497D; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 12px; font-size: 16px; padding: 14px; border-radius: 8px; transition: background 0.2s; width: 100%; }
-    button.submit-btn:active { background-color: #4F81BD; }
-    button:disabled { background-color: #cbd5e0 !important; color: #718096; cursor: not-allowed; }
-    
-    .loading { text-align: center; color: #a0aec0; font-style: italic; padding: 30px 0; font-size: 14px; }
-
-    /* 📱 สไตล์พิเศษสำหรับการแสดงผลบนหน้าจอมือถือ (Responsive Mobile) */
-    @media (max-width: 500px) {
-      /* ซ่อนหัวตารางและโครงสร้างตารางปกติ */
-      table, thead, tbody, th, td, tr { display: block; width: 100%; }
-      th { display: none; }
-      
-      /* เปลี่ยนแถวตารางให้กลายเป็น "กล่องการ์ด" */
-      tr {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        padding: 12px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      }
-      
-      /* จัดแนวคอลัมน์ในการ์ดมือถือ */
-      td { border: none; padding: 4px 0; text-align: left; }
-      
-      /* จัดให้ Checkbox กับ ชื่อ อยู่แถวเดียวกัน */
-      td:nth-child(1) {
-        display: inline-block;
-        width: 10%;
-        vertical-align: middle;
-      }
-      td:nth-child(2) {
-        display: inline-block;
-        width: 90%;
-        vertical-align: middle;
-        padding-bottom: 8px;
-        border-bottom: 1px dashed #edf2f7;
-      }
-      
-      /* คอลัมน์สถานะและหมายเหตุให้ขึ้นบรรทัดใหม่แบบเต็มหน้าจอ */
-      td:nth-child(3) {
-        display: block;
-        width: 100%;
-        margin-top: 8px;
-      }
-      
-      .select-status {
-        height: 40px;
-        font-size: 15px;
-      }
-      
-      .input-note {
-        margin-top: 8px;
-        padding: 10px;
-        font-size: 14px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -100,32 +38,33 @@
       <option value="organization">🏢 กลุ่มองค์การนักศึกษา</option>
     </select>
 
-    <label>🔍 ค้นหาชื่อสมาชิก:</label>
-    <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="พิมพ์ชื่อ หรือชื่อเล่นเพื่อค้นหา...">
+    <label>🔍 ค้นหาชื่อสมาชิกในกลุ่ม:</label>
+    <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="พิมพ์ชื่อจริง หรือชื่อเล่นเพื่อกรองรายการ...">
 
     <div class="action-bar">
-      <div><span class="btn-link" onclick="selectAll(true)">เลือกทั้งหมด</span> | <span class="btn-link" onclick="selectAll(false)">ไม่เลือกเลย</span></div>
+      <div>เลือกเฉพาะคน หรือ <span class="btn-link" onclick="selectAll(true)">เลือกทุกคน</span> | <span class="btn-link" onclick="selectAll(false)">ไม่เลือกเลย</span></div>
     </div>
 
     <div class="table-container">
-      <div id="loadingText" class="loading">⏳ กำลังดึงรายชื่อจากระบบ...</div>
+      <div id="loadingText" class="loading">กำลังดึงรายชื่อจาก Google Sheets...</div>
       <table id="studentTable" style="display: none;">
         <thead>
           <tr>
-            <th style="width: 10%; text-align:center;">เลือก</th>
-            <th style="width: 50%;">ชื่อ-สกุล (ชื่อเล่น)</th>
-            <th style="width: 40%;">สถานะ / หมายเหตุ</th>
+            <th class="checkbox-col">เลือก</th>
+            <th>ชื่อ-สกุล (ชื่อเล่น)</th>
+            <th>สถานะ</th>
+            <th>หมายเหตุ</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
     </div>
     
-    <button id="submitBtn" class="submit-btn" onclick="submitBatchAttendance()" disabled>รอโหลดข้อมูลสักครู่...</button>
+    <button id="submitBtn" onclick="submitBatchAttendance()" disabled>รอโหลดข้อมูลสักครู่...</button>
   </div>
 
   <script>
-    // ⚠️ นำลิงก์ Web App URL จาก Code.gs ของคุณมาวางตรงนี้แทนคำว่า XXXXX นะครับ
+    // ⚠️ นำลิงก์ Web App URL ที่ได้จากขั้นตอนที่ 1 มาวางตรงนี้ครับ
     const API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnSikYrP8U_muQKzrRoH8pB3WpDQ2k4SyhkXCmVp9WII1bC-jRSORdicIr7wjw-Nelgk7JpUe4OBf_DOOTY5upVoHP3ogZTE2H9tUGt2no2N74Dwc_CsjS5LuV4fn4xMwke1feUDEZkcfn7xkW0uUlSEY9qUCohHBD5S-06_qhxEoH3IHYhbsHWmgqCau0GggE6n1MmLHn1c_RmRzUIr0bLjfQg7nNV6cAetF-SaF4k1xgD8uVcjJ9d-Ktt7qfY__oYCqQ1_Ub8OaLSyy2aDG8QROFIqCQ&lib=MhKV7Dd65VTrbsHM-D7cbs_tH5UPOQwcu"; 
 
     var masterData = {}; 
@@ -151,14 +90,14 @@
       document.getElementById("searchInput").value = ""; 
       
       if(!currentGroupList || currentGroupList.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='3' class='loading'>❌ ไม่พบข้อมูลรายชื่อ</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='4' class='loading'>❌ ไม่พบข้อมูลรายชื่อ</td></tr>";
         return;
       }
 
       for (var i = 0; i < currentGroupList.length; i++) {
         var id = currentGroupList[i][0]; 
         var name = currentGroupList[i][1];
-        var nick = currentGroupList[i][2] || '-';
+        var nick = currentGroupList[i][2];
         var idLabel = selectedGroup === "subcommittee" ? "คณะ: " : "รหัส: ";
         
         var row = document.createElement("tr");
@@ -166,20 +105,10 @@
         row.setAttribute("data-name", name);
         row.setAttribute("data-nick", nick);
         row.innerHTML = `
-          <td style="text-align:center;"><input type="checkbox" class="checkbox-item" id="chk_${i}"></td>
-          <td>
-            <b style="color:#2d3748; font-size:15px;">${name}</b> <span style="color:#718096; font-size:13px;">(${nick})</span><br>
-            <small style="color:#a0aec0; font-size:12px;">${idLabel}${id}</small>
-          </td>
-          <td>
-            <select class="select-status" id="status_${i}">
-              <option value="มา">🟢 มา</option>
-              <option value="สาย">🟡 สาย</option>
-              <option value="ลา">🔵 ลา</option>
-              <option value="ขาด">🔴 ขาด</option>
-            </select>
-            <input type="text" class="input-note" id="note_${i}" placeholder="ระบุหมายเหตุ/เหตุผล..">
-          </td>
+          <td class="checkbox-col"><input type="checkbox" class="checkbox-item" id="chk_${i}"></td>
+          <td><b>${name}</b> <span style="color:#718096; font-size:12px;">(${nick})</span><br><small style="color:#a0aec0;">${idLabel}${id}</small></td>
+          <td><select class="select-status" id="status_${i}"><option value="มา">🟢 มา</option><option value="สาย">🟡 สาย</option><option value="ลา">🔵 ลา</option><option value="ขาด">🔴 ขาด</option></select></td>
+          <td><input type="text" class="input-note" id="note_${i}" placeholder="เหตุผล.."></td>
         `;
         tbody.appendChild(row);
       }
@@ -187,7 +116,7 @@
       document.getElementById("studentTable").style.display = "table";
       document.getElementById("submitBtn").disabled = false;
       var groupText = selectedGroup === "subcommittee" ? "อนุกรรมการ" : "องค์การนักศึกษา";
-      document.getElementById("submitBtn").innerText = "บันทึกข้อมูลกลุ่ม (" + groupText + ")";
+      document.getElementById("submitBtn").innerText = "บันทึกยอดเช็คชื่อของกลุ่ม (" + groupText + ")";
     }
 
     function filterTable() {
@@ -227,12 +156,13 @@
         }
       }
       
-      if (records.length === 0) { alert("⚠️ กรุณาเลือกรายชื่ออย่างน้อย 1 คนก่อนบันทึกครับ"); return; }
+      if (records.length === 0) { alert("⚠️ กรุณาเลือกรายชื่อก่อนบันทึกครับ"); return; }
       
       var btn = document.getElementById("submitBtn");
       btn.disabled = true;
-      btn.innerText = "กำลังบันทึกข้อมูล...";
+      btn.innerText = "กำลังบันทึกข้อมูลเข้า Google Sheets...";
       
+      // ส่งข้อมูลกลับไปหา Google Sheets API ด้วยวิธีแบบสากล
       fetch(API_URL, {
         method: "POST",
         body: JSON.stringify({ records: records, groupName: groupText })
@@ -245,7 +175,6 @@
       .catch(err => {
         alert("❌ เกิดข้อผิดพลาดในการบันทึก: " + err);
         btn.disabled = false;
-        btn.innerText = "บันทึกข้อมูลกลุ่ม (" + groupText + ")";
       });
     }
   </script>
